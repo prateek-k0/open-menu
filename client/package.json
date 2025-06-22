@@ -1,0 +1,28 @@
+{
+  "name": "online-menu-client",
+  "version": "1.0.0",
+  "description": "Frontend client for online menu ordering platform",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "axios": "^1.3.4",
+    "@reduxjs/toolkit": "^1.9.5",
+    "react-redux": "^8.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "vite": "^4.1.0"
+  },
+  "keywords": ["react", "menu", "ordering", "restaurant"],
+  "author": "",
+  "license": "MIT"
+} 

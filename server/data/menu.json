@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Margherita Pizza",
+    "description": "Classic tomato sauce with mozzarella cheese",
+    "price": 12.99,
+    "category": "Pizza",
+    "image": "https://picsum.photos/300/200?random=1",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Pepperoni Pizza",
+    "description": "Spicy pepperoni with melted cheese",
+    "price": 14.99,
+    "category": "Pizza",
+    "image": "https://picsum.photos/300/200?random=2",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Caesar Salad",
+    "description": "Fresh romaine lettuce with caesar dressing",
+    "price": 8.99,
+    "category": "Salad",
+    "image": "https://picsum.photos/300/200?random=3",
+    "available": true
+  },
+  {
+    "id": 4,
+    "name": "Chicken Wings",
+    "description": "Crispy wings with your choice of sauce",
+    "price": 10.99,
+    "category": "Appetizer",
+    "image": "https://picsum.photos/300/200?random=4",
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Pasta Carbonara",
+    "description": "Creamy pasta with bacon and parmesan",
+    "price": 13.99,
+    "category": "Pasta",
+    "image": "https://picsum.photos/300/200?random=5",
+    "available": true
+  },
+  {
+    "id": 6,
+    "name": "BBQ Chicken Pizza",
+    "description": "BBQ sauce with grilled chicken and red onions",
+    "price": 15.99,
+    "category": "Pizza",
+    "image": "https://picsum.photos/300/200?random=6",
+    "available": true
+  },
+  {
+    "id": 7,
+    "name": "Greek Salad",
+    "description": "Fresh vegetables with feta cheese and olives",
+    "price": 9.99,
+    "category": "Salad",
+    "image": "https://picsum.photos/300/200?random=7",
+    "available": true
+  },
+  {
+    "id": 8,
+    "name": "Mozzarella Sticks",
+    "description": "Breaded mozzarella sticks with marinara sauce",
+    "price": 7.99,
+    "category": "Appetizer",
+    "image": "https://picsum.photos/300/200?random=8",
+    "available": true
+  },
+  {
+    "id": 9,
+    "name": "Spaghetti Bolognese",
+    "description": "Classic spaghetti with rich meat sauce",
+    "price": 11.99,
+    "category": "Pasta",
+    "image": "https://picsum.photos/300/200?random=9",
+    "available": true
+  },
+  {
+    "id": 10,
+    "name": "Chocolate Cake",
+    "description": "Rich chocolate cake with vanilla ice cream",
+    "price": 6.99,
+    "category": "Dessert",
+    "image": "https://picsum.photos/300/200?random=10",
+    "available": true
+  }
+]
