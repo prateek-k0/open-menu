@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 import { removeFromCart, updateQuantity } from '../store/cartSlice';
 
 function Cart({ cart, cartTotal, onClose, onPlaceOrder }) {
@@ -20,11 +21,19 @@ function Cart({ cart, cartTotal, onClose, onPlaceOrder }) {
   };
 
   const handleRemoveItem = (itemId) => {
+    const item = cart.find(cartItem => cartItem.id === itemId);
     dispatch(removeFromCart(itemId));
+    toast.success(`${item.name} removed from cart`);
   };
 
   const handleUpdateQuantity = (itemId, newQuantity) => {
-    dispatch(updateQuantity({ itemId, newQuantity }));
+    if (newQuantity <= 0) {
+      const item = cart.find(cartItem => cartItem.id === itemId);
+      dispatch(removeFromCart(itemId));
+      toast.success(`${item.name} removed from cart`);
+    } else {
+      dispatch(updateQuantity({ itemId, newQuantity }));
+    }
   };
 
   return (

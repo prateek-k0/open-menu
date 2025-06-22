@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+// import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Cart from './components/Cart';
@@ -28,9 +29,11 @@ function App() {
   const fetchMenuItems = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/menu');
-      console.log('Menu items loaded:', response.data);
-      setMenuItems(response.data);
+      const response = await fetch('/api/menu');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      console.log('Menu items loaded:', data);
+      setMenuItems(data);
       setError(null);
     } catch (err) {
       setError('Failed to load menu items. Please try again later.');
@@ -59,24 +62,50 @@ function App() {
         totalAmount: cartTotal
       };
 
-      await axios.post('/api/orders', orderData);
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
       
       // Clear cart and show success message
       dispatch(clearCart());
       setIsCartOpen(false);
       setOrderSuccess(true);
+      toast.success('Order placed successfully! Thank you for your order.');
       
       // Hide success message after 3 seconds
       setTimeout(() => setOrderSuccess(false), 3000);
       
     } catch (err) {
       setError('Failed to place order. Please try again.');
+      toast.error('Failed to place order. Please try again.');
       console.error('Error placing order:', err);
     }
   };
 
   return (
     <div className="App">
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#4ade80',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
       <Header 
         cartItemCount={cartItemCount}
         onCartClick={() => setIsCartOpen(true)}

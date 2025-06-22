@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
 import { addToCart } from '../store/cartSlice';
 
 function MenuItem({ item }) {
@@ -16,6 +17,7 @@ function MenuItem({ item }) {
   const handleAddToCart = () => {
     dispatch(addToCart({ item, quantity }));
     setQuantity(1);
+    toast.success(`${quantity} ${quantity === 1 ? item.name : item.name + 's'} added to cart!`);
   };
 
   const handleImageError = () => {
