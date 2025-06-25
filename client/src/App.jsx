@@ -5,7 +5,8 @@ import { Toaster, toast } from 'react-hot-toast';
 import Header from './components/Header';
 import Menu from './components/Menu';
 import Cart from './components/Cart';
-import { selectCartItems, selectCartTotal, selectCartItemCount, clearCart } from './store/cartSlice';
+import CustomizeModal from './components/CustomizeModal';
+import { selectCartItems, selectCartTotal, selectCartItemCount, clearCart, addToCart } from './store/cartSlice';
 import './App.css';
 
 function App() {
@@ -13,6 +14,8 @@ function App() {
   const cartItems = useSelector(selectCartItems);
   const cartTotal = useSelector(selectCartTotal);
   const cartItemCount = useSelector(selectCartItemCount);
+
+  console.log(cartItems)
   
   const [menuItems, setMenuItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -20,11 +23,29 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [customizeModal, setCustomizeModal] = useState({
+    isOpen: false,
+    item: null
+  });
 
   // Fetch menu items from API
   useEffect(() => {
     fetchMenuItems();
   }, []);
+
+  // Disable scrolling when customize modal is open
+  useEffect(() => {
+    if (customizeModal.isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [customizeModal.isOpen]);
 
   const fetchMenuItems = async () => {
     try {
@@ -32,7 +53,6 @@ function App() {
       const response = await fetch('/api/menu');
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      console.log('Menu items loaded:', data);
       setMenuItems(data);
       setError(null);
     } catch (err) {
@@ -45,6 +65,35 @@ function App() {
 
   // Get unique categories
   const categories = ['all', ...new Set(menuItems.map(item => item.category))];
+
+  // Handle opening customize modal
+  const handleOpenCustomizeModal = (item) => {
+    setCustomizeModal({
+      isOpen: true,
+      item: item
+    });
+  };
+
+  // Handle closing customize modal
+  const handleCloseCustomizeModal = () => {
+    setCustomizeModal({
+      isOpen: false,
+      item: null
+    });
+  };
+
+  // Handle confirming quantity from modal
+  const handleConfirmQuantity = (quantity, cookingInstructions) => {
+    if (customizeModal.item) {
+      dispatch(addToCart({ 
+        item: customizeModal.item, 
+        quantity,
+        cookingInstructions: cookingInstructions || ''
+      }));
+      toast.success(`${quantity} ${quantity === 1 ? customizeModal.item.name : customizeModal.item.name + 's'} added to cart!`);
+      handleCloseCustomizeModal();
+    }
+  };
 
   // Place order
   const placeOrder = async (customerInfo) => {
@@ -131,6 +180,7 @@ function App() {
             selectedCategory={selectedCategory}
             onCategoryChange={setSelectedCategory}
             loading={loading}
+            onOpenCustomizeModal={handleOpenCustomizeModal}
           />
         </div>
       </main>
@@ -143,6 +193,14 @@ function App() {
           onPlaceOrder={placeOrder}
         />
       )}
+
+      <CustomizeModal
+        isOpen={customizeModal.isOpen}
+        onClose={handleCloseCustomizeModal}
+        onConfirm={handleConfirmQuantity}
+        itemName={customizeModal.item?.name || ''}
+        item={customizeModal.item}
+      />
     </div>
   );
 }

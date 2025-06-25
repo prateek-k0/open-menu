@@ -3,9 +3,8 @@ import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { addToCart } from '../store/cartSlice';
 
-function MenuItem({ item }) {
+function MenuItem({ item, onOpenCustomizeModal }) {
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(1);
   const [imgSrc, setImgSrc] = useState(item.image || getUnsplashImage(item.name));
 
   function getUnsplashImage(query) {
@@ -14,10 +13,10 @@ function MenuItem({ item }) {
     return `https://source.unsplash.com/300x200/?${encoded},food`;
   }
 
-  const handleAddToCart = () => {
-    dispatch(addToCart({ item, quantity }));
-    setQuantity(1);
-    toast.success(`${quantity} ${quantity === 1 ? item.name : item.name + 's'} added to cart!`);
+  const handleAddToCartClick = () => {
+    if (item.available) {
+      onOpenCustomizeModal(item);
+    }
   };
 
   const handleImageError = () => {
@@ -43,26 +42,9 @@ function MenuItem({ item }) {
         <div className="menu-item-description">{item.description}</div>
         <div className="menu-item-price">${item.price.toFixed(2)}</div>
         <div className="menu-item-actions">
-          <div className="quantity-controls">
-            <button
-              className="quantity-btn"
-              onClick={() => setQuantity(q => Math.max(1, q - 1))}
-              aria-label="Decrease quantity"
-            >
-              -
-            </button>
-            <span className="quantity-display">{quantity}</span>
-            <button
-              className="quantity-btn"
-              onClick={() => setQuantity(q => q + 1)}
-              aria-label="Increase quantity"
-            >
-              +
-            </button>
-          </div>
           <button
             className="add-to-cart-btn"
-            onClick={handleAddToCart}
+            onClick={handleAddToCartClick}
             disabled={!item.available}
           >
             {item.available ? 'Add to Cart' : 'Unavailable'}

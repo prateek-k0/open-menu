@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import MenuItem from './MenuItem';
 
-function Menu({ menuItems, categories, selectedCategory, onCategoryChange, onAddToCart, loading }) {
+function Menu({ menuItems, categories, selectedCategory, onCategoryChange, onAddToCart, loading, onOpenCustomizeModal }) {
   const categoryRefs = useRef({});
 
   // Group menu items by category
@@ -28,7 +28,6 @@ function Menu({ menuItems, categories, selectedCategory, onCategoryChange, onAdd
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                console.log('category in view:', category);
                 onCategoryChange(category);
               }
             });
@@ -106,6 +105,7 @@ function Menu({ menuItems, categories, selectedCategory, onCategoryChange, onAdd
                     key={item.id}
                     item={item}
                     onAddToCart={onAddToCart}
+                    onOpenCustomizeModal={onOpenCustomizeModal}
                   />
                 ))}
               </div>
